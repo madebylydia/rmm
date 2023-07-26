@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "remarkablemanga"
+version = "0.1.0"
+description = ""
+authors = ["Predeactor <pro.julien.mauroy@gmail.com>"]
+readme = "README.md"
+packages = [{include = "rmm"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+clickloader = "^0.1.2"
+
+
+[tool.poetry.scripts]
+manga = "rmm.cli:main"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
