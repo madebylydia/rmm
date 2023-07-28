@@ -1,0 +1,4 @@
+{
+    "python.analysis.downloadStubs": true,
+    "python.analysis.typeCheckingMode": "basic"
+}
