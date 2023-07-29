@@ -30,7 +30,7 @@ CMDS_HELP = (
     "\n\n\ta (Aggregate)"
     "\n\tGet info about a manga's volumes & chapters."
 )
-TEMP_DIR = Path(tempfile.mkdtemp(suffix="dolabella_"))
+TEMP_DIR = Path(tempfile.mkdtemp(prefix="dolabella_"))
 print(TEMP_DIR)
 
 
