@@ -9,8 +9,8 @@ packages = [{include = "dolabella"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 requests = "^2.31.0"
-img2pdf = "^0.4.4"
 wheel = "^0.41.0"
+pillow = "^10.0.0"
 
 
 [tool.poetry.scripts]

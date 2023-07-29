@@ -5,7 +5,8 @@ from typing import Any, NewType
 import tempfile
 import click
 import json
-import img2pdf
+from PIL import Image
+
 
 from dolabella.requester import download_image, get_images, search_mangas
 from dolabella.manga import Manga, MangaChapter, MangaVolume
@@ -73,14 +74,22 @@ def convert(manga: Manga, volume: MangaVolume, chapter: MangaChapter, origin: Pa
         / to_safe_path(volume.volume_pretty)
     ).expanduser()
     files = [str(file.resolve()) for file in origin.iterdir()]
-    output = img2pdf.convert(*files)
+    converted: list[Image.Image] = []
+
+    for file in files:
+        img = Image.open(file)
+        img.convert("RGB")
+        converted.append(img)
 
     destination.mkdir(parents=True, exist_ok=True)
     final = destination / to_safe_path(f"{chapter.chapter_pretty}.pdf")
     if final.exists():
         final.unlink()
     final.touch()
-    final.write_bytes(output)  # type: ignore
+
+    converted[0].save(
+        final, "PDF", resolution=100.0, save_all=True, append_images=converted[1:]
+    )
 
     return final
 
