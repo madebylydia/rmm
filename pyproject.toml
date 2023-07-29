@@ -11,6 +11,7 @@ python = "^3.11"
 requests = "^2.31.0"
 wheel = "^0.41.0"
 pillow = "^10.0.0"
+click = "^8.1.6"
 
 
 [tool.poetry.scripts]
