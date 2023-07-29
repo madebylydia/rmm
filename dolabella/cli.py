@@ -5,13 +5,14 @@ from typing import Any, NewType
 import tempfile
 import click
 import json
-from PIL import Image
+from PIL import Image, ImageFile
 
 
 from dolabella.requester import download_image, get_images, search_mangas
 from dolabella.manga import Manga, MangaChapter, MangaVolume
 
 
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 VolSelection = NewType("VolSelection", str)
 
 CMDS_HELP = (
