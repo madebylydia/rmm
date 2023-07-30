@@ -1,18 +1,17 @@
-from pathlib import Path
-import re
-import sys
-from typing import Any, NewType
-import tempfile
-import click
 import json
-from PIL import Image, ImageFile
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+from typing import Any, NewType
 
+import click
 
-from dolabella.requester import download_image, get_images, search_mangas
 from dolabella.manga import Manga, MangaChapter, MangaVolume
+from dolabella.requester import download_image, get_images, search_mangas
 
-
-ImageFile.LOAD_TRUNCATED_IMAGES = True
 VolSelection = NewType("VolSelection", str)
 
 CMDS_HELP = (
@@ -67,30 +66,27 @@ def list_mangas(mangas: dict[int, Manga]):
     click.echo(output)
 
 
-def convert(manga: Manga, volume: MangaVolume, chapter: MangaChapter, origin: Path) -> Path:
+def convert(
+    manga: Manga, volume: MangaVolume, chapter: MangaChapter, origin: Path
+) -> Path:
     destination = (
         Path("~")
         / "Mangas"
         / to_safe_path(manga.title)
         / to_safe_path(volume.volume_pretty)
     ).expanduser()
-    files = [str(file.resolve()) for file in origin.iterdir()]
-    converted: list[Image.Image] = []
-
-    for file in files:
-        img = Image.open(file)
-        img.convert("RGB")
-        converted.append(img)
+    images_paths = [str(image.resolve()) for image in origin.iterdir()]
 
     destination.mkdir(parents=True, exist_ok=True)
     final = destination / to_safe_path(f"{chapter.chapter_pretty}.pdf")
     if final.exists():
         final.unlink()
-    final.touch()
 
-    converted[0].save(
-        final, "PDF", resolution=100.0, save_all=True, append_images=converted[1:]
-    )
+    imagemagick = shutil.which("magick")
+    if not imagemagick:
+        raise Exception("ImageMagick not found. Be sure to have it installed.")
+
+    subprocess.run(f"{imagemagick} {' '.join(images_paths)} {final.resolve()}")
 
     return final
 
@@ -122,7 +118,7 @@ def download(manga: Manga, volumes: list[MangaVolume]):
 
 
 @click.command()
-def mangadl():
+def mangadl() -> None:
     """
     Download a manga from MangaDex.
     """
