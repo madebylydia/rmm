@@ -3,6 +3,7 @@ import re
 import shutil
 import subprocess
 import sys
+import shutil
 import tempfile
 from pathlib import Path
 from typing import Any, NewType
@@ -128,7 +129,7 @@ def download(manga: Manga, volumes: list[MangaVolume]):
             click.echo(
                 f"Clearing temporary folder, freeing {sizeof_fmt(stats.st_size)}"
             )
-            dl_folder.rmdir()
+            shutil.rmtree(dl_folder)
 
 
 @click.command()
