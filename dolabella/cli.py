@@ -78,15 +78,16 @@ def convert(
     images_paths = [str(image.resolve()) for image in origin.iterdir()]
 
     destination.mkdir(parents=True, exist_ok=True)
-    final = destination / to_safe_path(f"{chapter.chapter_pretty}.pdf")
+    final = destination / f"{to_safe_path(chapter.chapter_pretty)}.pdf"
     if final.exists():
+        click.echo(f"Warn: {final.resolve()} existed. Deleting.")
         final.unlink()
 
     imagemagick = shutil.which("magick")
     if not imagemagick:
         raise Exception("ImageMagick not found. Be sure to have it installed.")
 
-    subprocess.run(f"{imagemagick} {' '.join(images_paths)} {final.resolve()}")
+    subprocess.Popen([imagemagick, *images_paths, final]).wait()
 
     return final
 
