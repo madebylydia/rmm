@@ -101,8 +101,8 @@ def convert(
 
 
 def download(manga: Manga, volumes: list[MangaVolume]):
-    for volume in volumes:
-        for chapter in volume.chapters:
+    for volume in reversed(volumes):
+        for chapter in reversed(volume.chapters):
             data = get_images(chapter.chapter_id)
 
             images: list[str] = data["chapter"]["dataSaver"]
