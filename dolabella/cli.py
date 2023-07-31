@@ -128,7 +128,7 @@ def download(manga: Manga, volumes: list[MangaVolume]):
             click.echo(
                 f"Clearing temporary folder, freeing {sizeof_fmt(stats.st_size)}"
             )
-            dl_folder.unlink()
+            dl_folder.rmdir()
 
 
 @click.command()
