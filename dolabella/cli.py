@@ -42,6 +42,14 @@ def to_safe_path(query: str):
     return re.sub(r"[^\w_. -]", "_", query)
 
 
+def sizeof_fmt(num: float, suffix: str = "B"):
+    for unit in ("", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"):
+        if abs(num) < 1024.0:
+            return f"{num:3.1f}{unit}{suffix}"
+        num /= 1024.0
+    return f"{num:.1f}Yi{suffix}"
+
+
 def range_to_list(selected_range: str):
     return sum(
         (
@@ -116,6 +124,11 @@ def download(manga: Manga, volumes: list[MangaVolume]):
             click.echo(f"Converting chapter {chapter.chapter_pretty} to PDF...")
             final = convert(manga, volume, chapter, dl_folder)
             click.echo(f"Dropped at {final.resolve()}.")
+            stats = dl_folder.stat()
+            click.echo(
+                f"Clearing temporary folder, freeing {sizeof_fmt(stats.st_size)}"
+            )
+            dl_folder.unlink()
 
 
 @click.command()

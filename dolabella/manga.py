@@ -1,7 +1,5 @@
 from typing import Any
 
-import click
-
 from dolabella.requester import aggregate_manga
 
 
