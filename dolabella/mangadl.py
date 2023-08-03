@@ -1,5 +1,6 @@
 import sys
 from typing import NewType
+from aspreno import ExceptionHandler, register_global_handler
 
 import click
 
@@ -34,7 +35,7 @@ CMDS_HELP = (
 @click.argument("name", type=click.STRING)
 def newmangadl(name: str):
     click.echo("Registering Aspreno...")
-    # register_global_handler(ExceptionHandler())
+    register_global_handler(ExceptionHandler())
 
     click.echo(f"Searching for {name}...")
     data = search_mangas(name)
