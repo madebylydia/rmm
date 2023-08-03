@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Dolabella"
-version = "0.1.0"
+version = "2.0.0"
 description = ""
 authors = ["Lydia <pro.julien.mauroy@gmail.com>"]
 readme = "README.md"
@@ -11,10 +11,12 @@ python = "^3.11"
 requests = "^2.31.0"
 wheel = "^0.41.0"
 click = "^8.1.6"
+cuid2 = "^2.0.0"
+aspreno = "^1.0.0.dev2"
 
 
 [tool.poetry.scripts]
-mangadl = "dolabella.cli:mangadl"
+mangadl = "dolabella.mangadl:newmangadl"
 
 
 [tool.poetry.group.dev.dependencies]
