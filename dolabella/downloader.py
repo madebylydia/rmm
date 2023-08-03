@@ -23,7 +23,9 @@ def convert(
     drop_at: pathlib.Path, origin: pathlib.Path, chapter_pretty: str
 ) -> pathlib.Path:
     # sourcery skip: raise-specific-error
-    images_paths = [str(image.resolve()) for image in origin.iterdir()]
+    # images = origin.iterdir()
+    images = sorted(origin.iterdir(), key=lambda x: x.name)
+    images_paths = [str(image.resolve()) for image in images]
 
     drop_at.mkdir(parents=True, exist_ok=True)
     final = drop_at / f"{to_safe_path(chapter_pretty)}.pdf"
